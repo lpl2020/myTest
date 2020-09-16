@@ -1,0 +1,117 @@
+实验名称】
+
+实验：Pandas
+【实验目的】
+1.了解Pandas模块的数据结构
+2.使用Pandas对数据进行分析
+【实验原理】
+Python Data Analysis Library 或 pandas 是基于NumPy 的一种工具，该工具是为了解决数据分析任务而创建的。Pandas 纳入了大量库和一些标准的数据模型，提供了高效地操作大型数据集所需的工具。
+
+【实验环境】
+
+OS：Ubuntu16.04
+PyCharm： 2017.3
+【实验要求】
+提交符合要求的实验报告：
+
+1.粘贴你补全的代码并注释原因。
+
+2.将你程序运行的输出结果（图片）粘贴到报告中。
+
+3.回答STEP6中：什么是相关系数？
+
+【实验步骤】
+
+安装本实验所需依赖库
+
+复制到实验机pip install pandas==0.20.3
+pip install matplotlib==3.1.1
+题目：使用Pandas对销售数据进行分析
+现在我们获得了一个连续数据的数据集data.txt，
+
+复制到实验机cd /home/ubuntu
+wget http://10.90.3.2/HUP/DataMining/2/stu/data.txt
+该数据集由年，月份，和AB两地某商品的销售数据组成，我们希望发现这两地销售数据之间是否有关联。
+STEP1：查看数据集data.txt的数据构成，我们发现其数据有四列构成，分别代表的是年、月、以及两组销售数据。数据是和时间相关联的。因此我们以时间为索引，转换其数据结构将方便我们的分析。
+
+STEP2：构建convert_data_to_timeseries函数，该函数目的是将原始数据中的某地销售数据转换为Series结构，其索引为年月构成的时间，因为Series强大的功能方便我们进行统计。实现convert_data_to_timeseries函数功能，在这之前请先熟悉data_range函数的使用方式，data_range函数会返回一个时间索引。pycharm中练习以下代码，查看其结果。
+>>>date_time_index = pd.date_range(start="2018-06-29", end="2018-07-02")
+>>>date_time_index = pd.date_range(start="2018-06-29", periods=4)
+>>>date_time_index = pd.date_range(periods=4, end="2018-07-02")
+>>>date_time_index = pd.date_range(start="2018-01-01", end="2018-07-01", freq='M')
+>>>date_time_index = pd.date_range(start="2018-01-01", end="2018-07-01", freq='D')
+
+复制到实验机import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+###STEP2###
+def convert_data_to_timeseries(input_file, column, verbose=False):
+    # 导入数据
+    data = np.loadtxt(input_file, delimiter=',')
+    # 确定索引的开始与结束时间
+    start_date = str(int(data[0,0])) + '-' + str(int(data[0,1]))
+    end_date = str(int(data[-1,0] + 1)) + '-' + str(int(data[-1,1] % 12 + 1))
+    ###问题一：完善函数###
+    ###提示：通过pandas的date_range函数获取索引###
+    
+   """
+  补
+  充
+  代
+  码
+   """
+    return data_timeseries
+
+STEP3：查看数据，将A地（第三列）数据成图，查看其是否存在某种趋势，并截图保存到报告上
+
+复制到实验机###STEP3###
+# 文件路径
+input_file = '/home/ubuntu/data.txt'
+column_num = 2
+data_timeseries = convert_data_to_timeseries(input_file, column_num)
+# Plot方法成图
+data_timeseries.plot()
+plt.title('Input data')
+# 图像太密集了，我们换一个时间范围
+start = '2007-2'
+end = '2007-11'
+plt.figure()
+data_timeseries[start:end].plot()
+plt.title('Data from ' + start + ' to ' + end)
+plt.show()
+STEP4：加入第二组销售数据，将两组Series数据转化为二维数据结构DataFrame,索引为时间，DataFrame结构会利于我们的比较。
+
+复制到实验机###STEP4###
+###将数据的第三,四列转换为二维数据结构dataframe,索引为时间###
+"""
+补
+充
+代
+码
+"""
+dataframe = pd.DataFrame({'first': data1, 'second': data2})
+# 将两组数据同时成图
+dataframe['1955':'1960'].plot()
+plt.title('Data overlapped on top of each other')
+
+STEP5：查看数据，将AB地数据成图，查看两组数据否存在相同趋势，截图保存到报告上
+
+复制到实验机###STEP5###
+# 查看两组数据是否有线性关联
+plt.figure()
+difference = dataframe['1952':'1955']['first'] - dataframe['1952':'1955']['second']
+difference.plot()
+plt.title('Difference (first - second)')
+plt.show()
+STEP6：从图像中似乎没发现数据的规矩，我们希望借助统计学来观测，分别计算两组数据的最大最小值，平均值，以及相关系数。请了解相关系数的函数corr()，以及什么是相关系数，请参考http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.corr.html
+
+复制到实验机###STEP6###
+###统计两组数组的最大最小值和均值###
+###计算数据的相关系数，调用corr函数###
+"""
+补
+充
+代
+码
+"""
